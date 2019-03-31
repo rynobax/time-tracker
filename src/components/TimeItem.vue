@@ -32,37 +32,41 @@ export default Vue.extend({
     },
   },
   computed: {
-    editing: function() {
-      return this.$store.state.editing;
+    editing: {
+      get: function() {
+        // Actually a boolean but ts goes crazy if I mark it as boolean
+        const editing: string = this.$store.state.editing;
+        return editing;
+      },
     },
     title: {
-      get() {
+      get: function() {
         const title: string = this.$store.getters.item(this.id).title;
         return title;
       },
-      set(title: string) {
+      set: function(title: string) {
         const item = this.$store.getters.item(this.id);
         const newItem = { ...item, title };
         this.$store.commit('edit', newItem);
       },
     },
     start: {
-      get() {
+      get: function() {
         const start: string = this.$store.getters.item(this.id).start;
         return start;
       },
-      set(start: string) {
+      set: function(start: string) {
         const item = this.$store.getters.item(this.id);
         const newItem = { ...item, start };
         this.$store.commit('edit', newItem);
       },
     },
     end: {
-      get() {
+      get: function() {
         const end: string = this.$store.getters.item(this.id).end;
         return end;
       },
-      set(end: string) {
+      set: function(end: string) {
         const item = this.$store.getters.item(this.id);
         const newItem = { ...item, end };
         this.$store.commit('edit', newItem);
