@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import createLogger from 'vuex/dist/logger';
+import createPersistedState from 'vuex-persistedstate';
 
 export interface Item {
   id: number;
@@ -46,7 +47,7 @@ export const HHMMToTime = (time: string) => {
 
 const store = new Vuex.Store<State>({
   strict: process.env.NODE_ENV !== 'production',
-  plugins: [createLogger()],
+  plugins: [createLogger(), createPersistedState()],
   state: {
     editing: false,
     items: [
@@ -80,7 +81,8 @@ const store = new Vuex.Store<State>({
     },
     add(state, title: string) {
       const items = [...state.items];
-      items[items.length - 1].end = timeToHHMM(Date.now());
+      const lastItem = items[items.length - 1];
+      if (lastItem) lastItem.end = timeToHHMM(Date.now());
       items.push({
         id: Math.random(),
         title,
@@ -98,6 +100,9 @@ const store = new Vuex.Store<State>({
     delete(state, id: number) {
       const items = [...state.items];
       state.items = items.filter(e => e.id !== id);
+    },
+    clear(state) {
+      state.items = [];
     },
   },
 });

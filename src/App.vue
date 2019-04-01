@@ -3,9 +3,14 @@
     <div class="list-container">
       <time-list />
       <add-item />
-      <button @click="edit" type="button" class="btn btn-primary mt-4">
-        <icon-base name="edit"> <icon-edit-white /> </icon-base>Edit
-      </button>
+      <div class="flex">
+        <button @click="edit" type="button" class="btn btn-primary mt-4">
+          <icon-base name="edit"> <icon-edit-white /> </icon-base>Edit
+        </button>
+        <button @click="clear" type="button" class="btn btn-primary mt-4 ml-8">
+          Clear
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -32,6 +37,9 @@ export default Vue.extend({
   methods: {
     edit() {
       this.$store.commit('toggleEditing');
+    },
+    clear() {
+      this.$store.commit('clear');
     },
   },
 });
